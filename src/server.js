@@ -1,56 +1,81 @@
 //1934536673:AAGn2s27f-iFQqjSwthIe8DEWkTrUDLqzCo => Bot token
 
+//Standart
 const http = require("http")
 const fs = require('fs')
 
-const books = JSON.stringify([
-  { title: "The Alchemist", author: "Paulo Coelho", year: 1988 },
-  { title: "The Prophet", author: "Kahlil Gibran", year: 1923 }
-]);
+//My files
+const {options} = require('./jsonObjects')
 
-const authors = JSON.stringify([
-  { name: "Paulo Coelho", countryOfBirth: "Brazil", yearOfBirth: 1947 },
-  { name: "Kahlil Gibran", countryOfBirth: "Lebanon", yearOfBirth: 1883 }
-]);
+// function handleReq(requestURL){
+//   fs.readFile(options[requestURL], (err, data) => {
+//     if(err){
+//       res.writeHead(500)
+//       res.end(err)
+//       return
+//     }
+//     res.writeHead(200)
+//     res.end(data)
+//   })
+// }
 
-const options = {
-  hostname: 'localhost',
-  port: 8000,
-  publicDir: __dirname + "/../pub/index.html"
-} 
+// const reqURLs = {
+//   '/': handleReq('index'),
+//   '/about': handleReq('about'),
+//   '/contact-me': handleReq('contact'),
+// }
 
 const requestListener = (req, res) => {
-  fs.readFile(options.publicDir, (err, data) => {
-    if(err){
-      res.writeHead(500)
-      res.end(err)
-      return
-    }
-    
-    if(req.url === "/books"){
-      res.writeHead(200);
-      res.end(books);
-    }
-    else if(req.url === "/authors"){
-      res.writeHead(200);
-      res.end(authors);
-    }
-    else if(req.url === "/"){
-      res.writeHead(200);
-      res.end(data);
-    }
-    else{
-      res.writeHead(404);
-      res.end(JSON.stringify({error:"Resource not found"}));
-    }
-    
 
-  })
+  if(req.url === "/"){
+    fs.readFile(options.index, (err, data) => {
+      if(err){
+        res.writeHead(500)
+        res.end(err)
+        return
+      }
+      res.writeHead(200)
+      res.end(data)
+    })
+  }
+  else if(req.url === "/about"){
+    fs.readFile(options.about, (err, data) => {
+      if(err){
+        res.writeHead(500)
+        res.end(err)
+        return
+      }
+      res.writeHead(200)
+      res.end(data)
+    })
+  }
+  else if(req.url === "/contact-me"){
+    fs.readFile(options.contact, (err, data) => {
+      if(err){
+        res.writeHead(500)
+        res.end(err)
+        return
+      }
+      res.writeHead(200)
+      res.end(data)
+    })
+  }
+  else {
+    fs.readFile(options.notFound404, (err, data) => {
+      if(err){
+        res.writeHead(500)
+        res.end(err)
+        return
+      }
+      res.writeHead(200)
+      res.end(data)
+    })
+  }
 
 }
 
 const server = http.createServer(requestListener)
 
 server.listen(options.port, options.hostname, () => {
-  console.log(options.publicDir + "All working")
+  console.log("All working")
 })
