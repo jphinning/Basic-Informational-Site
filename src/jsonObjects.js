@@ -12,7 +12,7 @@ const authors = JSON.stringify([
   
 const options = {
     hostname: 'localhost',
-    port: 8000,
+    port: process.env.PORT || 8000,
     index: __dirname + "/../pub/index.html",
     about: __dirname + "/../pub/about.html",
     contact: __dirname + "/../pub/contact-me.html",
