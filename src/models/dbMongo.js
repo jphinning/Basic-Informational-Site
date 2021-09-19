@@ -1,6 +1,6 @@
 const {connect, Schema, model} = require('mongoose')
 
-const mongodB = 'mongodb+srv://admin:test@cluster0.rvdmx.mongodb.net/dbTest?retryWrites=true&w=majority'
+const mongodB = process.env.DB_URI
 
 
 const connectToDataBase = async () => {
@@ -13,6 +13,13 @@ const login = new Schema({
     password : {type: Number, required: false, default: 100},
 })
 
+
+//Creates a collection inside our connected database
+//Remember, for mongo:
+//Cluster
+//Database
+//Collection
+//Document
 const modelApp = model('loginApp', login)
 
 module.exports = modelApp

@@ -2,10 +2,12 @@
 const express = require('express')
 const {connect} = require('mongoose')
 const modelApp = require('./models/dbMongo')
+const dotenv = require('dotenv')
 
 //My files  
 const {options} = require('./jsonObjects')
-const mongodB = 'mongodb+srv://admin:test@cluster0.rvdmx.mongodb.net/dbTest?retryWrites=true&w=majority'
+dotenv.config()
+const mongodB = process.env.DB_URI
 
 connect(mongodB)
 
